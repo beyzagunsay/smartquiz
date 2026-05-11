@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Quiz System</title>
+    <style>
+        body{
+            margin:0;
+            font-family:Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+        .card{
+            background:white;
+            width:90%;
+            max-width:700px;
+            padding:60px;
+            border-radius:25px;
+            text-align:center;
+            box-shadow:0 20px 50px rgba(0,0,0,0.25);
+        }
+        h1{font-size:50px;color:#333;}
+        p{font-size:20px;color:#666;}
+        .btn{
+            display:inline-block;
+            margin:10px;
+            padding:16px 28px;
+            background:#667eea;
+            color:white;
+            text-decoration:none;
+            border-radius:14px;
+            font-weight:bold;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h1>Smart Quiz System</h1>
+    <p>Solve quizzes, see your score, and get recommendation packages for your weak topics.</p>
+
+    {% if user.is_authenticated %}
+        <h2>Welcome, {{ user.username }} 👋</h2>
+        <a class="btn" href="/topics/">Start Quiz</a>
+        <a class="btn" href="/logout/">Logout</a>
+    {% else %}
+        <a class="btn" href="/login/">Login</a>
+        <a class="btn" href="/register/">Register</a>
+    {% endif %}
+</div>
+</body>
+</html>

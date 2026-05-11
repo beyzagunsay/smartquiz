@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz</title>
+
+    <style>
+        body{
+            margin:0;
+            font-family:Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:40px 0;
+        }
+
+        .container{
+            width:90%;
+            max-width:900px;
+            background:white;
+            padding:40px;
+            border-radius:25px;
+            box-shadow:0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:40px;
+            color:#333;
+        }
+
+        .question-card{
+            background:#f4f4f4;
+            padding:25px;
+            border-radius:18px;
+            margin-bottom:25px;
+        }
+
+        .question{
+            font-size:22px;
+            font-weight:bold;
+            margin-bottom:20px;
+            color:#333;
+        }
+
+        label{
+            display:block;
+            padding:14px;
+            margin-bottom:12px;
+            background:white;
+            border-radius:12px;
+            cursor:pointer;
+            transition:0.3s;
+            border:1px solid #ddd;
+        }
+
+        label:hover{
+            background:#667eea;
+            color:white;
+        }
+
+        input[type="radio"]{
+            margin-right:10px;
+        }
+
+        .submit-btn{
+            width:100%;
+            padding:18px;
+            border:none;
+            border-radius:14px;
+            background:#667eea;
+            color:white;
+            font-size:18px;
+            font-weight:bold;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .submit-btn:hover{
+            background:#4c63d2;
+            transform:scale(1.02);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>📝 Quiz Time</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {% for q in questions %}
+
+            <div class="question-card">
+
+                <div class="question">
+                    {{ q.text }}
+                </div>
+
+                <label>
+                    <input type="radio" name="question_{{ q.id }}" value="A" required>
+                    {{ q.option_a }}
+                </label>
+
+                <label>
+                    <input type="radio" name="question_{{ q.id }}" value="B">
+                    {{ q.option_b }}
+                </label>
+
+                <label>
+                    <input type="radio" name="question_{{ q.id }}" value="C">
+                    {{ q.option_c }}
+                </label>
+
+                <label>
+                    <input type="radio" name="question_{{ q.id }}" value="D">
+                    {{ q.option_d }}
+                </label>
+
+            </div>
+
+        {% endfor %}
+
+        <button class="submit-btn" type="submit">
+            Finish Quiz
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

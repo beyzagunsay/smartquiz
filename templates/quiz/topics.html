@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Topics</title>
+
+    <style>
+
+        body{
+            margin:0;
+            font-family:Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+
+        .card{
+            background:white;
+            width:90%;
+            max-width:700px;
+            padding:40px;
+            border-radius:25px;
+            box-shadow:0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        h1{
+            text-align:center;
+            color:#333;
+            margin-bottom:30px;
+        }
+
+        form{
+            display:flex;
+            gap:10px;
+            margin-bottom:30px;
+        }
+
+        input{
+            flex:1;
+            padding:14px;
+            border-radius:10px;
+            border:1px solid #ccc;
+            font-size:16px;
+        }
+
+        button{
+            padding:14px 20px;
+            border:none;
+            border-radius:10px;
+            background:#667eea;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+        }
+
+        .topic{
+            display:block;
+            background:#f4f4f4;
+            padding:18px;
+            border-radius:14px;
+            margin-bottom:15px;
+            text-decoration:none;
+            color:#333;
+            font-size:20px;
+            font-weight:bold;
+            transition:0.3s;
+        }
+
+        .topic:hover{
+            background:#667eea;
+            color:white;
+            transform:scale(1.02);
+        }
+
+        .pagination{
+            margin-top:25px;
+            text-align:center;
+        }
+
+        .pagination a{
+            display:inline-block;
+            margin:5px;
+            padding:10px 16px;
+            background:#667eea;
+            color:white;
+            text-decoration:none;
+            border-radius:10px;
+            font-weight:bold;
+        }
+
+        .pagination span{
+            margin:0 10px;
+            font-weight:bold;
+            color:#333;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <h1>📚 Topics</h1>
+
+    <form method="GET">
+        <input type="text" name="search" placeholder="Search topic..." value="{{ search|default:'' }}">
+        <button type="submit">Search</button>
+    </form>
+
+    {% for topic in topics %}
+        <a class="topic" href="/quiz/{{ topic.id }}/">
+            {{ topic.name }}
+        </a>
+    {% empty %}
+        <p>No topic found.</p>
+    {% endfor %}
+
+    <div class="pagination">
+
+        {% if topics.has_previous %}
+            <a href="?page={{ topics.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span>
+            Page {{ topics.number }} of {{ topics.paginator.num_pages }}
+        </span>
+
+        {% if topics.has_next %}
+            <a href="?page={{ topics.next_page_number }}">Next</a>
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+</html>
