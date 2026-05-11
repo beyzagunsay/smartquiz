@@ -127,3 +127,6 @@ LOGIN_REDIRECT_URL = "/topics/"
 LOGOUT_REDIRECT_URL = "/"
 LOGIN_URL = "/login/"
 
+ALLOW_HOSTS = ['*']
+
+ALLOWED_HOSTS = ['smartquiz-nj0g.onrender.com']
