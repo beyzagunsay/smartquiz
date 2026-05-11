@@ -130,3 +130,7 @@ LOGIN_URL = "/login/"
 ALLOW_HOSTS = ['*']
 
 ALLOWED_HOSTS = ['smartquiz-nj0g.onrender.com']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
