@@ -41,9 +41,42 @@
             border-radius:12px;
             font-weight:bold;
         }
-    </style>
+    
+.navbar{
+    position:fixed;
+    top:20px;
+    left:20px;
+    z-index:999;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+.navbar a{
+    background:white;
+    color:#667eea;
+    padding:10px 15px;
+    border-radius:12px;
+    text-decoration:none;
+    font-weight:bold;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+.navbar a:hover{
+    background:#667eea;
+    color:white;
+}
+
+</style>
 </head>
 <body>
+
+<div class="navbar">
+    <a href="javascript:history.back()">Back</a>
+    <a href="/">Profile</a>
+    <a href="/topics/">Topics</a>
+    <a href="/leaderboard/">Leaderboard</a>
+    <a href="/logout/">Logout</a>
+</div>
+
 
 <div class="card">
     <h1>📚 Recommended Learning Package</h1>

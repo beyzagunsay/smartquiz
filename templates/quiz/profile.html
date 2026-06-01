@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Profile</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    min-height:100vh;
+    padding:120px 20px;
+}
+
+.navbar{
+    position:fixed;
+    top:20px;
+    left:20px;
+    display:flex;
+    gap:10px;
+    z-index:999;
+}
+
+.navbar a{
+    background:white;
+    color:#667eea;
+    padding:10px 15px;
+    border-radius:12px;
+    text-decoration:none;
+    font-weight:bold;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+.card{
+    background:white;
+    max-width:950px;
+    margin:auto;
+    padding:45px;
+    border-radius:28px;
+    box-shadow:0 20px 50px rgba(0,0,0,.25);
+}
+
+h1{
+    text-align:center;
+    color:#333;
+    font-size:42px;
+}
+
+.username{
+    text-align:center;
+    font-size:26px;
+    font-weight:bold;
+    color:#667eea;
+    margin-bottom:30px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    margin:30px 0;
+}
+
+.box{
+    background:#f4f4f4;
+    padding:25px;
+    border-radius:18px;
+    text-align:center;
+}
+
+.box h2{
+    margin:0;
+    color:#333;
+    font-size:32px;
+}
+
+.box p{
+    color:#666;
+    font-weight:bold;
+}
+
+.level{
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    color:white;
+    padding:25px;
+    border-radius:20px;
+    text-align:center;
+    margin:30px 0;
+}
+
+.level h2{
+    margin:0;
+    font-size:32px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:25px;
+}
+
+th,td{
+    padding:14px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+th{
+    background:#f4f4f4;
+}
+
+@media(max-width:700px){
+    .stats{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <a href="javascript:history.back()">⬅ Back</a>
+    <a href="/">🏠 Home</a>
+    <a href="/topics/">📚 Topics</a>
+    <a href="/leaderboard/">🏆 Leaderboard</a>
+    <a href="/logout/">🚪 Logout</a>
+</div>
+
+<div class="card">
+    <h1>👤 User Profile</h1>
+    <div class="username">{{ request.user.username }}</div>
+
+    <div class="stats">
+        <div class="box">
+            <h2>{{ total_quizzes }}</h2>
+            <p>Solved Quizzes</p>
+        </div>
+
+        <div class="box">
+            <h2>{{ average_score }}%</h2>
+            <p>Average Score</p>
+        </div>
+
+        <div class="box">
+            <h2>{{ level }}</h2>
+            <p>Current Level</p>
+        </div>
+    </div>
+
+    <div class="level">
+        <h2>{{ level }}</h2>
+        <p>{{ level_message }}</p>
+    </div>
+
+    <h2>Recent Quiz Results</h2>
+
+    <table>
+        <tr>
+            <th>Topic</th>
+            <th>Score</th>
+            <th>Correct</th>
+            <th>Wrong</th>
+            <th>Date</th>
+        </tr>
+
+        {% for a in attempts %}
+        <tr>
+            <td>{{ a.topic.name }}</td>
+            <td>{{ a.score }}%</td>
+            <td>{{ a.correct }}</td>
+            <td>{{ a.wrong }}</td>
+            <td>{{ a.created_at }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No quizzes solved yet.</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+</body>
+</html>

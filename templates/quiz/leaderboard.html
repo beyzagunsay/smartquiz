@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Leaderboard</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    min-height:100vh;
+    padding:120px 20px;
+}
+
+.navbar{
+    position:fixed;
+    top:20px;
+    left:20px;
+    display:flex;
+    gap:10px;
+    z-index:999;
+}
+
+.navbar a{
+    background:white;
+    color:#667eea;
+    padding:10px 15px;
+    border-radius:12px;
+    text-decoration:none;
+    font-weight:bold;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+.card{
+    background:white;
+    max-width:1000px;
+    margin:auto;
+    padding:40px;
+    border-radius:25px;
+    box-shadow:0 20px 50px rgba(0,0,0,.25);
+}
+
+h1{
+    text-align:center;
+    color:#333;
+    font-size:42px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#666;
+    margin-bottom:30px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:25px;
+}
+
+th,td{
+    padding:15px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+th{
+    background:#f4f4f4;
+    color:#333;
+}
+
+.rank{
+    font-weight:bold;
+    color:#667eea;
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <a href="javascript:history.back()">⬅ Back</a>
+    <a href="/">🏠 Home</a>
+    <a href="/topics/">📚 Topics</a>
+    <a href="/logout/">🚪 Logout</a>
+</div>
+
+<div class="card">
+    <h1>🏆 Leaderboard</h1>
+    <p class="subtitle">Solved quizzes ranked by highest score</p>
+
+    <table>
+        <tr>
+            <th>Rank</th>
+            <th>User</th>
+            <th>Topic</th>
+            <th>Score</th>
+            <th>Correct</th>
+            <th>Wrong</th>
+            <th>Date</th>
+        </tr>
+
+        {% for a in attempts %}
+        <tr>
+            <td class="rank">{{ forloop.counter }}</td>
+            <td>{{ a.user.username }}</td>
+            <td>{{ a.topic.name }}</td>
+            <td>{{ a.score }}%</td>
+            <td>{{ a.correct }}</td>
+            <td>{{ a.wrong }}</td>
+            <td>{{ a.created_at }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7">No quizzes solved yet 🎯</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+</body>
+</html>

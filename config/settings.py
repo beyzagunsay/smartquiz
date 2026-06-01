@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-3i!ayhzew0v=_6exflyq3xrmuzy9k1sc33!2o!xmq&u4tl@+-i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+
 
 
 # Application definition
@@ -87,20 +87,7 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
+AUTH_PASSWORD_VALIDATORS = []
 
 
 # Internationalization
@@ -130,8 +117,10 @@ LOGIN_URL = "/login/"
 
 ALLOW_HOSTS = ['*']
 
-ALLOWED_HOSTS = ['smartquiz-nj0g.onrender.com']
+
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
+
+ALLOWED_HOSTS = ['*', '127.0.0.1', 'localhost', 'smartquiz-nj0g.onrender.com']
