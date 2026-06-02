@@ -1,0 +1,130 @@
+{% extends 'quiz/admin_base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+{% block nav_dashboard %}active{% endblock %}
+{% block page_title %}📊 Dashboard{% endblock %}
+
+{% block content %}
+
+<!-- İstatistik Kartları -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon icon-purple"><i class="fa-solid fa-users"></i></div>
+    <div class="stat-value">{{ total_users }}</div>
+    <div class="stat-label">Toplam Kullanıcı</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon icon-green"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="stat-value">{{ total_quizzes }}</div>
+    <div class="stat-label">Çözülen Quiz</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon icon-blue"><i class="fa-solid fa-book-open"></i></div>
+    <div class="stat-value">{{ active_topics }}</div>
+    <div class="stat-label">Aktif Konu</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon icon-amber"><i class="fa-solid fa-trophy"></i></div>
+    <div class="stat-value">{{ avg_score }}</div>
+    <div class="stat-label">Ortalama Puan</div>
+  </div>
+</div>
+
+<!-- Grafik + Aktivite -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px">
+
+  <!-- Bar Chart -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">Haftalık Quiz Aktivitesi</span>
+      <span style="font-size:12px;color:#888">Son 7 gün</span>
+    </div>
+    <div class="card-body">
+      {% with max_count=max_count %}
+      <div style="display:flex;align-items:flex-end;gap:8px;height:100px;margin-bottom:6px">
+        {% for day in weekly_data %}
+        {% widthratio day.count max_count 100 as pct %}
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%">
+          <div style="flex:1;width:100%;display:flex;align-items:flex-end">
+            <div style="
+              width:100%;
+              height:{% if pct %}{{ pct }}{% else %}5{% endif %}%;
+              background:{% if forloop.last %}#6C5CE7{% else %}#DDD8FF{% endif %};
+              border-radius:5px 5px 0 0;
+              min-height:6px;
+              transition:height .3s;
+            " title="{{ day.count }} quiz"></div>
+          </div>
+          <span style="font-size:10px;color:#888">{{ day.label }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      {% endwith %}
+    </div>
+  </div>
+
+  <!-- Son Aktiviteler -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">Son Kayıt Olan Kullanıcılar</span>
+    </div>
+    <div style="padding:6px 0">
+      {% for user in recent_users %}
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 22px;border-bottom:1px solid #f5f3ff">
+        <div class="user-ava">{{ user.username|slice:":2"|upper }}</div>
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:600">{{ user.username }}</div>
+          <div style="font-size:11px;color:#888">{{ user.email }}</div>
+        </div>
+        <div style="font-size:11px;color:#888">{{ user.date_joined|timesince }} önce</div>
+      </div>
+      {% empty %}
+      <div style="padding:20px 22px;color:#888;font-size:13px">Henüz kullanıcı yok.</div>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+
+<!-- Son Quiz Sonuçları -->
+<div class="card">
+  <div class="card-header">
+    <span class="card-title">Son Quiz Sonuçları</span>
+    <a href="{% url 'admin_users' %}" class="btn btn-ghost btn-sm">Tümünü Gör</a>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Kullanıcı</th>
+          <th>Konu</th>
+          <th>Puan</th>
+          <th>Tarih</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for result in recent_quizzes %}
+        <tr>
+          <td>
+            <div class="user-cell">
+              <div class="user-ava">{{ result.user.username|slice:":2"|upper }}</div>
+              {{ result.user.username }}
+            </div>
+          </td>
+          <td>{{ result.topic.name }}</td>
+          <td>
+            <span class="badge {% if result.score >= 80 %}badge-green{% elif result.score >= 50 %}badge-amber{% else %}badge-red{% endif %}">
+              {{ result.score }}
+            </span>
+          </td>
+          <td style="color:#888;font-size:12px">{{ result.created_at|date:"d.m.Y H:i" }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4" style="text-align:center;color:#888;padding:24px">Henüz quiz çözülmemiş 🎯</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

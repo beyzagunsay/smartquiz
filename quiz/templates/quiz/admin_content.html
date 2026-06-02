@@ -1,0 +1,76 @@
+{% extends 'quiz/admin_base.html' %}
+
+{% block title %}İçerik & Konular{% endblock %}
+{% block nav_content %}active{% endblock %}
+{% block page_title %}📚 İçerik & Konular{% endblock %}
+
+{% block content %}
+
+<div class="card">
+  <div class="card-header">
+    <span class="card-title">Tüm Konular ({{ topics.count }})</span>
+    <!-- Konu ekleme sayfanıza link verin -->
+    <a href="#" class="btn btn-primary btn-sm">
+      <i class="fa-solid fa-plus"></i> Konu Ekle
+    </a>
+  </div>
+
+  <div>
+    {% for topic in topics %}
+    <div class="topic-row">
+      <!-- Emoji: topic modelinizde emoji alanı yoksa kaldırabilirsiniz -->
+      <div class="topic-emoji">
+        {% if topic.emoji %}{{ topic.emoji }}{% else %}📝{% endif %}
+      </div>
+
+      <div class="topic-info">
+        <div class="topic-name">{{ topic.name }}</div>
+        <div class="topic-meta">
+          {{ topic.question_count }} soru
+          &nbsp;·&nbsp;
+          Son güncelleme: {{ topic.updated_at|timesince|default:topic.created_at|timesince }} önce
+        </div>
+      </div>
+
+      <!-- Durum -->
+      {% if topic.is_active %}
+        <span class="badge badge-green">Aktif</span>
+      {% else %}
+        <span class="badge badge-red">Pasif</span>
+      {% endif %}
+
+      <!-- İşlemler -->
+      <div class="topic-actions">
+        <!-- Aktif/Pasif toggle -->
+        <form method="POST" action="{% url 'admin_topic_toggle' topic.pk %}" style="display:inline">
+          {% csrf_token %}
+          <button type="submit" class="btn-icon"
+            title="{% if topic.is_active %}Pasife Al{% else %}Aktive Et{% endif %}">
+            <i class="fa-solid {% if topic.is_active %}fa-eye-slash{% else %}fa-eye{% endif %}"></i>
+          </button>
+        </form>
+
+        <!-- Düzenle (kendi düzenleme sayfanıza link verin) -->
+        <a href="#" class="btn-icon" title="Düzenle">
+          <i class="fa-solid fa-pen"></i>
+        </a>
+
+        <!-- Sil -->
+        <form method="POST" action="{% url 'admin_topic_delete' topic.pk %}" style="display:inline"
+          onsubmit="return confirm('{{ topic.name }} ve tüm soruları silinsin mi?')">
+          {% csrf_token %}
+          <button type="submit" class="btn-icon danger" title="Sil">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+    {% empty %}
+    <div style="padding:40px;text-align:center;color:#888">
+      Henüz konu eklenmemiş 📚
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
